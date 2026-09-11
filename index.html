@@ -163,6 +163,23 @@
   .install-steps li { margin-bottom: 6px; }
   .install-steps li strong { color: var(--ink); }
 
+  /* ---------- Screenshot strip ---------- */
+  .shots-scroll {
+    display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px;
+    scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+  }
+  .shots-scroll::-webkit-scrollbar { height: 6px; }
+  .shots-scroll::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 999px; }
+  .shot { flex: none; width: 168px; scroll-snap-align: start; }
+  .shot img {
+    width: 100%; display: block; border-radius: 16px; border: 1px solid var(--rule);
+    box-shadow: 0 16px 32px -20px rgba(0,0,0,0.4);
+  }
+  .shot figcaption {
+    margin-top: 9px; font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); text-align: center;
+  }
+
   /* ---------- Footer ---------- */
   footer.block { padding-block: 30px 50px; display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; justify-content: space-between; }
   footer.block .links { display: flex; flex-wrap: wrap; gap: 18px; }
@@ -197,6 +214,24 @@
 </div>
 
 <div class="wrap">
+
+  <section class="block" id="screenshots">
+    <div class="section-head">
+      <div class="eyebrow">In your hand</div>
+      <h2>A quick look</h2>
+      <p class="lede">Straight from the app, nothing staged.</p>
+    </div>
+    <div class="shots-scroll">
+      <figure class="shot"><img src="shot-dashboard.jpeg" alt="HISAB dashboard showing total balance and recent activity"><figcaption>Dashboard</figcaption></figure>
+      <figure class="shot"><img src="shot-reports.jpeg" alt="Reports screen with expense-by-category donut chart"><figcaption>Reports</figcaption></figure>
+      <figure class="shot"><img src="shot-add-expense.jpeg" alt="Add Expense form"><figcaption>Add Expense</figcaption></figure>
+      <figure class="shot"><img src="shot-security.jpeg" alt="Security settings with App Lock and biometric unlock"><figcaption>Security</figcaption></figure>
+      <figure class="shot"><img src="shot-categories.jpeg" alt="Categories screen listing expense categories"><figcaption>Categories</figcaption></figure>
+      <figure class="shot"><img src="shot-debts.jpeg" alt="Debt and lending tracker"><figcaption>Debt / Lending</figcaption></figure>
+      <figure class="shot"><img src="shot-export.jpeg" alt="Export Report screen with PDF export"><figcaption>Export Report</figcaption></figure>
+      <figure class="shot"><img src="shot-settings.jpeg" alt="Settings screen"><figcaption>Settings</figcaption></figure>
+    </div>
+  </section>
 
   <section class="block" id="features">
     <div class="section-head">
