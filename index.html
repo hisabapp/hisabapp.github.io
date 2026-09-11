@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HISAB — offline personal finance for Pakistan</title>
+<meta name="description" content="HISAB is a personal finance tracker for Pakistan that never leaves your phone. Download the APK directly.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,680&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root {
+    --forest: #00563B;
+    --forest-soft: #0B6B4B;
+    --mint: #1FAE7A;
+    --mint-ink: #04371F;
+    --paper: #F3F5F1;
+    --card: #FFFFFF;
+    --ink: #142019;
+    --ink-soft: #4B5B52;
+    --gold: #8A6A16;
+    --rule: #D9DED6;
+    --radius: 10px;
+    --focus: #1FAE7A;
+    /* Fixed brand identity — deliberately not theme-responsive, same look for every visitor. */
+    --accent-ink: var(--forest-soft);
+  }
+
+  * { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body {
+    margin: 0; padding-inline: 20px;
+    background: var(--paper); color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-size: 16px; line-height: 1.6;
+  }
+  img { max-width: 100%; }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; text-wrap: balance; letter-spacing: -0.01em; margin: 0; }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+  ::selection { background: var(--mint); color: var(--mint-ink); }
+
+  .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; }
+  .tabular { font-variant-numeric: tabular-nums; }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.09em; text-transform: uppercase;
+  }
+
+  .band { margin-inline: -20px; padding-inline: 20px; }
+  .wrap { max-width: 860px; margin-inline: auto; }
+
+  /* ---------- Hero ---------- */
+  .hero-band {
+    background:
+      radial-gradient(ellipse 900px 500px at 12% -15%, var(--forest-soft), transparent),
+      var(--forest);
+    color: #EAF4EE;
+  }
+  .hero-inner { padding-block: 18px 56px; }
+  .topline {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding-block: 14px 40px;
+  }
+  .wordmark { display: flex; align-items: center; gap: 10px; }
+  .wordmark img { width: 30px; height: 30px; border-radius: 8px; display: block; }
+  .wordmark span {
+    font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 14px;
+    letter-spacing: 0.08em; color: #F2F8F4;
+  }
+  .topline .src { font-size: 13px; color: #BFDACB; text-decoration: none; border-bottom: 1px solid transparent; }
+  .topline .src:hover { border-color: #BFDACB; }
+
+  .hero-grid {
+    display: grid; grid-template-columns: 168px 1fr; gap: 36px; align-items: center;
+  }
+  .hero-icon img {
+    width: 168px; height: 168px; border-radius: 34px; display: block;
+    box-shadow: 0 18px 40px -12px rgba(0,0,0,0.45);
+  }
+  .hero-eyebrow { color: #7EE3B3; margin-bottom: 14px; }
+  .hero-copy h1 { font-size: clamp(30px, 4.6vw, 44px); font-weight: 600; color: #FFFFFF; line-height: 1.14; }
+  .hero-copy p.sub { max-width: 46ch; color: #CFE6D8; font-size: 16px; margin: 16px 0 26px; }
+
+  .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--mint); color: var(--mint-ink);
+    font-weight: 600; font-size: 15.5px; text-decoration: none;
+    padding: 13px 22px; border-radius: var(--radius);
+    box-shadow: 0 10px 24px -10px rgba(31,174,122,0.55);
+  }
+  .btn-primary:hover { background: #34C289; }
+  .btn-primary .size { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; opacity: 0.75; }
+  .jump-link { font-size: 14px; color: #BFDACB; text-decoration: none; border-bottom: 1px solid rgba(191,218,203,0.4); }
+  .jump-link:hover { border-color: #BFDACB; }
+
+  @media (max-width: 620px) {
+    .hero-grid { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    .hero-copy p.sub { margin-inline: auto; }
+    .cta-row { justify-content: center; }
+  }
+
+  /* ---------- Sections ---------- */
+  section.block { padding-block: 46px; border-bottom: 1px solid var(--rule); }
+  section.block:last-of-type { border-bottom: none; }
+  .section-head { margin-bottom: 22px; }
+  .section-head .eyebrow { color: var(--gold); margin-bottom: 6px; }
+  .section-head h2 { font-size: 24px; font-weight: 600; }
+  .section-head p.lede { color: var(--ink-soft); max-width: 60ch; margin: 10px 0 0; font-size: 15px; }
+
+  /* ---------- Ledger feature rows ---------- */
+  .ledger { display: flex; flex-direction: column; }
+  .ledger-row {
+    display: grid; grid-template-columns: 64px 1fr; gap: 18px;
+    padding-block: 16px; border-top: 1px solid var(--rule);
+  }
+  .ledger-row:last-child { border-bottom: 1px solid var(--rule); }
+  .ledger-tag {
+    font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.03em; color: var(--accent-ink); padding-top: 2px;
+  }
+  .ledger-row h3 { font-size: 16.5px; font-weight: 600; font-family: 'IBM Plex Sans', sans-serif; margin-bottom: 3px; }
+  .ledger-row p { margin: 0; color: var(--ink-soft); font-size: 14.5px; max-width: 56ch; }
+
+  /* ---------- Privacy seal ---------- */
+  .seal {
+    background: var(--card); border: 1px solid var(--rule); border-top: 3px solid var(--gold);
+    border-radius: var(--radius); padding: 26px 28px;
+  }
+  .seal .eyebrow { color: var(--gold); margin-bottom: 10px; }
+  .seal p { margin: 0; font-size: 16px; line-height: 1.65; max-width: 62ch; }
+  .seal p + p { margin-top: 12px; }
+  .seal strong { color: var(--accent-ink); }
+
+  /* ---------- Download list ---------- */
+  .dl-guide { color: var(--ink-soft); font-size: 14.5px; margin: 0 0 20px; max-width: 62ch; }
+  .dl-list { display: flex; flex-direction: column; border-top: 1px solid var(--rule); }
+  .dl-row {
+    display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 16px;
+    padding-block: 15px; border-bottom: 1px solid var(--rule);
+    text-decoration: none; color: var(--ink);
+  }
+  .dl-row:hover { background: var(--card); }
+  .dl-row .name { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; }
+  .dl-row .who { display: block; font-family: 'IBM Plex Sans', sans-serif; font-weight: 400; font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+  .dl-row .size { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--ink-soft); white-space: nowrap; }
+  .dl-row .arrow { color: var(--accent-ink); flex: none; }
+  .dl-row.recommended { position: relative; }
+  .dl-row.recommended .name::after {
+    content: "RECOMMENDED"; font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.06em; color: var(--accent-ink); background: color-mix(in srgb, var(--mint) 25%, transparent);
+    padding: 2px 7px; border-radius: 999px; margin-left: 10px; vertical-align: middle;
+  }
+
+  @media (max-width: 560px) {
+    .dl-row { grid-template-columns: 1fr auto; }
+    .dl-row .size { grid-column: 1 / 2; }
+  }
+
+  .install-steps { margin-top: 26px; }
+  .install-steps h3 { font-size: 14px; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); margin-bottom: 10px; }
+  .install-steps ol { margin: 0; padding-left: 20px; color: var(--ink-soft); font-size: 14.5px; }
+  .install-steps li { margin-bottom: 6px; }
+  .install-steps li strong { color: var(--ink); }
+
+  /* ---------- Footer ---------- */
+  footer.block { padding-block: 30px 50px; display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; justify-content: space-between; }
+  footer.block .links { display: flex; flex-wrap: wrap; gap: 18px; }
+  footer.block a { font-size: 13.5px; color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid transparent; }
+  footer.block a:hover { border-color: var(--ink-soft); }
+  footer.block .ver { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<div class="band hero-band">
+  <div class="wrap hero-inner">
+    <div class="topline">
+      <div class="wordmark"><img src="icon.png" alt=""><span>HISAB</span></div>
+      <a class="src" href="https://github.com/Parasraj35/hisab-" target="_blank" rel="noopener">Source on GitHub ↗</a>
+    </div>
+    <div class="hero-grid">
+      <div class="hero-icon"><img src="icon.png" alt="HISAB app icon"></div>
+      <div class="hero-copy">
+        <div class="eyebrow hero-eyebrow">PKR · offline-first · v1.1.2</div>
+        <h1>Hisab means the reckoning.<br>Keep yours honestly.</h1>
+        <p class="sub">A personal finance tracker built for Pakistan that never leaves your phone. No account to create, no server, no sync — every rupee you log stays in local storage on your device alone.</p>
+        <div class="cta-row">
+          <a class="btn-primary" href="https://github.com/Parasraj35/hisab-/releases/download/v1.1.2/app-arm64-v8a-release.apk">
+            Download for Android <span class="size tabular">25.7 MB</span>
+          </a>
+          <a class="jump-link" href="#downloads">Not sure which file? See all builds ↓</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="block" id="features">
+    <div class="section-head">
+      <div class="eyebrow">The ledger</div>
+      <h2>What's inside</h2>
+      <p class="lede">Every feature actually shipping in v1.1.2 — nothing here is planned or coming soon.</p>
+    </div>
+    <div class="ledger">
+      <div class="ledger-row">
+        <div class="ledger-tag">CASH</div>
+        <div><h3>Accounts that can't go negative</h3><p>Cash, bank, wallet or card — split your money across as many accounts as you actually use, each with a running balance the app will never let overdraw.</p></div>
+      </div>
+      <div class="ledger-row">
+        <div class="ledger-tag">EXP / INC</div>
+        <div><h3>Categorized expense &amp; income</h3><p>Log spending and earnings against categories that make sense to you, then search and filter your full history.</p></div>
+      </div>
+      <div class="ledger-row">
+        <div class="ledger-tag">XFER</div>
+        <div><h3>Transfers between your own accounts</h3><p>Move money from Cash in Hand to your bank account without it ever counting as income or expense.</p></div>
+      </div>
+      <div class="ledger-row">
+        <div class="ledger-tag">DEBT</div>
+        <div><h3>Debt &amp; lending tracker</h3><p>Track what you've lent and what you owe, with support for partial payments as they come in.</p></div>
+      </div>
+      <div class="ledger-row">
+        <div class="ledger-tag">SAVE</div>
+        <div><h3>Savings goals</h3><p>Set a target, contribute toward it, withdraw when you need to — the goal's progress adjusts either way.</p></div>
+      </div>
+      <div class="ledger-row">
+        <div class="ledger-tag">RPT</div>
+        <div><h3>Reports &amp; export</h3><p>Category breakdowns and month-over-month trends, exportable as PDF or CSV whenever you need the paperwork.</p></div>
+      </div>
+      <div class="ledger-row">
+        <div class="ledger-tag">LOCK</div>
+        <div><h3>PIN &amp; biometric app lock</h3><p>Fingerprint or face unlock, with an auto-lock timer you set — HISAB locks itself behind whatever your phone already supports.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="seal">
+      <div class="eyebrow">A note on privacy</div>
+      <p><strong>Ads are the only thing that ever leaves this app.</strong> HISAB shows ads to stay free to use, and that's the extent of it — your balances, transactions, debts and savings goals are written to a local database on your phone and nowhere else.</p>
+      <p>No account to create, nothing to sync, nothing sitting on a server that could leak. Uninstall the app and every number in it is gone with it, because it was never anywhere but here.</p>
+    </div>
+  </section>
+
+  <section class="block" id="downloads">
+    <div class="section-head">
+      <div class="eyebrow">Get the app</div>
+      <h2>Choose your build</h2>
+      <p class="lede">Android groups devices by processor architecture. Most phones from 2018 onward are <span class="mono">arm64</span> — that's the one to start with.</p>
+    </div>
+
+    <div class="dl-list">
+      <a class="dl-row recommended" href="https://github.com/Parasraj35/hisab-/releases/download/v1.1.2/app-arm64-v8a-release.apk">
+        <span><span class="name">app-arm64-v8a.apk</span><span class="who">Most Android phones, 2018 or newer — start here</span></span>
+        <span class="size tabular">25.7 MB</span>
+        <span class="arrow">↓</span>
+      </a>
+      <a class="dl-row" href="https://github.com/Parasraj35/hisab-/releases/download/v1.1.2/app-release.apk">
+        <span><span class="name">app-universal.apk</span><span class="who">Unsure of your device, or arm64 wouldn't install</span></span>
+        <span class="size tabular">67.5 MB</span>
+        <span class="arrow">↓</span>
+      </a>
+      <a class="dl-row" href="https://github.com/Parasraj35/hisab-/releases/download/v1.1.2/app-armeabi-v7a-release.apk">
+        <span><span class="name">app-armeabi-v7a.apk</span><span class="who">Older or budget Android phones</span></span>
+        <span class="size tabular">23.2 MB</span>
+        <span class="arrow">↓</span>
+      </a>
+      <a class="dl-row" href="https://github.com/Parasraj35/hisab-/releases/download/v1.1.2/app-x86_64-release.apk">
+        <span><span class="name">app-x86_64.apk</span><span class="who">x86 Android devices — uncommon</span></span>
+        <span class="size tabular">27.3 MB</span>
+        <span class="arrow">↓</span>
+      </a>
+    </div>
+
+    <div class="install-steps">
+      <h3>Installing the APK</h3>
+      <ol>
+        <li>Android blocks installs from outside the Play Store by default — when you open the downloaded file, allow <strong>"Install from this source"</strong> when prompted, then install normally.</li>
+        <li>If the download finishes but seems to hang before installing, open <strong>Play Store → profile icon → Play Protect → settings gear</strong>, and turn off "Scan apps with Play Protect" before retrying.</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer class="block">
+    <div class="links">
+      <a href="https://claude.ai/code/artifact/0d6c756c-ee07-400b-b885-e181c9193646" target="_blank" rel="noopener">Privacy Policy</a>
+      <a href="https://github.com/Parasraj35/hisab-" target="_blank" rel="noopener">Source on GitHub</a>
+      <a href="https://github.com/Parasraj35/hisab-/releases" target="_blank" rel="noopener">All releases</a>
+    </div>
+    <div class="ver">HISAB v1.1.2 · built by Paras Raj</div>
+  </footer>
+
+</div>
+</body>
+</html>
